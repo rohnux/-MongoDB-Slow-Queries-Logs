@@ -22,16 +22,16 @@ for db in dblist:
      demo_doc=demo_coll.find()
      es = connectElasticSearch()
      for each_doc in demo_doc:
-#	 debugging import pdb;pdb.set_trace() 
-	       if each_doc.get('command'):
+#    for debugging- import pdb;pdb.set_trace() 
+	 if each_doc.get('command'):
               if each_doc.get('command').get('$clusterTime'):
                  each_doc.pop('command')['$clusterTime']
          if each_doc.get('originatingCommand'):
               if each_doc.get('originatingCommand').get('$clusterTime'):
                  each_doc.pop('originatingCommand')['$clusterTime']
-	       result = each_doc.get('ts')
+	 result = each_doc.get('ts')
          if datetime.datetime.now() - result < datetime.timedelta(minutes=30):  #slow query of last 30 minutes
-	              esResponse = es.index(index=indexName,body=each_doc)
-	              print each_doc
-              # print dumps(each_doc)
-	              print each_doc.get('ts')
+	      esResponse = es.index(index=indexName,body=each_doc)
+	      print each_doc
+            # print dumps(each_doc)
+              print each_doc.get('ts')
